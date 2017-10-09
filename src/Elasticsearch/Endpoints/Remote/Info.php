@@ -1,33 +1,25 @@
 <?php
 
-namespace Elasticsearch\Endpoints\Indices;
-
+namespace Elasticsearch\Endpoints\Remote;
 use Elasticsearch\Endpoints\AbstractEndpoint;
 
 /**
- * Class Delete
+ * Class Info
  *
  * @category Elasticsearch
- * @package  Elasticsearch\Endpoints\Indices
+ * @package  Elasticsearch\Endpoints\Cluster\Nodes
  * @author   Zachary Tong <zach@elastic.co>
  * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
  * @link     http://elastic.co
  */
-class Delete extends AbstractEndpoint
+class Info extends AbstractEndpoint
 {
     /**
      * @return string
      */
     public function getURI()
     {
-        $index = $this->index;
-        $uri   = "/$index";
-
-        if (isset($index) === true) {
-            $uri = "/$index";
-        }
-
-        return $uri;
+        return "/_remote/info";
     }
 
     /**
@@ -35,12 +27,7 @@ class Delete extends AbstractEndpoint
      */
     public function getParamWhitelist()
     {
-        return array(
-            'timeout',
-            'master_timeout',
-            'ignore_unavailable',
-            'allow_no_indices'
-        );
+        return array();
     }
 
     /**
@@ -48,6 +35,6 @@ class Delete extends AbstractEndpoint
      */
     public function getMethod()
     {
-        return 'DELETE';
+        return 'GET';
     }
 }

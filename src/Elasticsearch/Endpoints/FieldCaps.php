@@ -2,10 +2,11 @@
 
 namespace Elasticsearch\Endpoints;
 
+use Elasticsearch\Common\Exceptions\InvalidArgumentException;
 use Elasticsearch\Common\Exceptions;
 
 /**
- * Class Count
+ * Class FieldCaps
  *
  * @category Elasticsearch
  * @package  Elasticsearch\Endpoints
@@ -13,7 +14,7 @@ use Elasticsearch\Common\Exceptions;
  * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
  * @link     http://elastic.co
  */
-class Count extends AbstractEndpoint
+class FieldCaps extends AbstractEndpoint
 {
     /**
      * @param array $body
@@ -28,7 +29,6 @@ class Count extends AbstractEndpoint
         }
 
         $this->body = $body;
-
         return $this;
     }
 
@@ -38,18 +38,12 @@ class Count extends AbstractEndpoint
     public function getURI()
     {
         $index = $this->index;
-        $type = $this->type;
-        $uri   = "/_count";
 
-        if (isset($index) === true && isset($type) === true) {
-            $uri = "/$index/$type/_count";
-        } elseif (isset($type) === true) {
-            $uri = "/_all/$type/_count";
-        } elseif (isset($index) === true) {
-            $uri = "/$index/_count";
+        if (isset($index) === true ) {
+            return "/$index/_field_caps";
+        } else {
+            return "/_field_caps";
         }
-
-        return $uri;
     }
 
     /**
@@ -58,22 +52,10 @@ class Count extends AbstractEndpoint
     public function getParamWhitelist()
     {
         return array(
+            'fields',
             'ignore_unavailable',
             'allow_no_indices',
-            'expand_wildcards',
-            'min_score',
-            'preference',
-            'routing',
-            'source',
-            'q',
-            'df',
-            'default_operator',
-            'analyzer',
-            'lowercase_expanded_terms',
-            'analyze_wildcard',
-            'lenient',
-            'lowercase_expanded_terms',
-            'terminate_after'
+            'expand_wildcards'
         );
     }
 
